@@ -1,0 +1,10 @@
+.CardWrapper {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(auto, 371px));
+  gap: 30px;
+  padding: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(1, minmax(auto, 371px));
+  }
+}

@@ -1,0 +1,11 @@
+.SearchBar {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0 10px;
+  width: 371px;
+
+  @media (max-width: 371px) {
+    width: auto;
+  }
+
+}

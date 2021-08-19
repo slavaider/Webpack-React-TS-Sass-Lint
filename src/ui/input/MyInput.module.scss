@@ -1,0 +1,25 @@
+.MyInput {
+  width: 100%;
+  height: 50px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 14px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  border: 1px solid #7E7E7E;
+  border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  color: #7E7E7E;
+  padding: 0 10px;
+  outline: none;
+
+  &:focus {
+    border-color: #FF5555;
+  }
+
+  &:disabled {
+    opacity: .7;
+  }
+
+}
