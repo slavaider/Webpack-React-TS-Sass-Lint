@@ -1,5 +1,5 @@
-import {ApiResponse} from "@shared/store/ApiStore/types";
-import IUser from "@interfaces/user";
+import { ApiResponse } from '@shared/store/ApiStore/types';
+import IUser from '@interfaces/user';
 
 /** Интерфейс класса для работы с GitHub API
  * названия getSomeData и postSomeData
@@ -10,25 +10,29 @@ import IUser from "@interfaces/user";
 
 // POST
 export type PostSomeDataResp = {
-    id: number,
-    name: string,
-}
+  id: number;
+  name: string;
+};
 
 export type PostSomeDataPrams = {
-    org: string;
-    body: any
-}
+  org: string;
+  body: Body;
+};
 
 // GET
 export type GetUserDataResponse = {
-    total_count: number,
-    items: Array<IUser>,
-    incomplete_results: boolean
-}
+  total_count: number;
+  items: Array<IUser>;
+  incomplete_results: boolean;
+};
 
 export interface IGitHubStore {
-    getUserData(organisation: string): Promise<ApiResponse<GetUserDataResponse, any>>;
+  getUserData(
+    organisation: string,
+  ): Promise<ApiResponse<GetUserDataResponse, Error>>;
 
-    // Необязательный пункт, т.к. требует авторизации. Понадобится в будущем
-    postSomeData(params: PostSomeDataPrams): Promise<ApiResponse<PostSomeDataResp, any>>;
+  // Необязательный пункт, т.к. требует авторизации. Понадобится в будущем
+  postSomeData(
+    params: PostSomeDataPrams,
+  ): Promise<ApiResponse<PostSomeDataResp, Error>>;
 }

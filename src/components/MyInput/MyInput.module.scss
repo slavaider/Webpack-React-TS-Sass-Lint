@@ -1,0 +1,25 @@
+@import '../../styles/variables';
+
+.MyInput {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  font-size: $small-font-size;
+  line-height: $main-line-height;
+  border: 1px solid $color-grey;
+  border-top-left-radius: $border-length;
+  border-bottom-left-radius: $border-length;
+  color: $color-grey;
+  padding: 0 $spacing-unit-5;
+  outline: none;
+
+  &:focus {
+    border-color: $color-red;
+  }
+
+  &:disabled {
+    opacity: .7;
+  }
+
+}

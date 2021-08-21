@@ -1,16 +1,24 @@
 const path = require("path");
-const resolvePath = p => path.resolve(__dirname, p)
+const base = require('./tsconfig.paths.json');
+const {compilerOptions: {paths}} = base;
+
+function parseString(stringToParse) {
+  const regex = new RegExp('^([a-z\\/@]+)(\\/\\*)+$');
+  return stringToParse.match(regex)[1];
+}
+
+function getPaths(paths) {
+  const result = {}
+  const firstElement = 0;
+  const resolvePath = pathName => path.resolve(__dirname, pathName)
+  Object.keys(paths).forEach(key => {
+    result[parseString(key)] = resolvePath(parseString(paths[key][firstElement]))
+  })
+  return result
+}
 
 module.exports = {
   webpack: {
-    alias: {
-      '@components': resolvePath('./src/components'),
-      '@assets': resolvePath('./src/assets'),
-      '@ui': resolvePath('./src/ui'),
-      '@shared': resolvePath('./src/shared'),
-      '@store': resolvePath('./src/store'),
-      '@interfaces': resolvePath('./src/interfaces'),
-      '@root': resolvePath('./src/root')
-    }
+    alias: getPaths(paths)
   },
 };

@@ -8,9 +8,6 @@
       "@assets/*": [
         "src/assets/*"
       ],
-      "@ui/*": [
-        "src/ui/*"
-      ],
       "@shared/*": [
         "src/shared/*"
       ],
@@ -19,9 +16,6 @@
       ],
       "@interfaces/*": [
         "src/interfaces/*"
-      ],
-      "@root/*": [
-        "src/root/*"
       ]
     }
   }
