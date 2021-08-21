@@ -10,9 +10,6 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": [
-    "prettier"
-  ],
   "rules": {
     "react/prop-types": [
       1,
