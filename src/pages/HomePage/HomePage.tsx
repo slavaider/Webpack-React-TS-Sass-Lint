@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from "react";
 
+import Loader from "@components/Loader";
 import IUser from "@interfaces/user";
 import GithubStore from "@store/GitHubStore/GitHubStore";
 
@@ -10,6 +11,7 @@ import classes from "./HomePage.module.scss";
 const HomePage: React.FC = () => {
   const store = new GithubStore();
   const [userName, setUserName] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
   const [users, setUsers] = useState<IUser[]>([]);
 
   const onChangeUser = useCallback(
@@ -17,10 +19,12 @@ const HomePage: React.FC = () => {
       setUserName(newData);
 
       if (newData) {
+        setLoading(true);
         store.getUserData(newData).then((response) => {
           if (response.success) {
             setUsers(response.data.items);
           }
+          setLoading(false);
         });
       }
     },
@@ -30,7 +34,7 @@ const HomePage: React.FC = () => {
   return (
     <div className={classes.HomePage}>
       <SearchBar handleChanged={onChangeUser} />
-      <CardWrapper items={users} />
+      {loading ? <Loader /> : <CardWrapper items={users} />}
     </div>
   );
 };
