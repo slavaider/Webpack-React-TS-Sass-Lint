@@ -1,5 +1,5 @@
-import { ApiResponse } from '@shared/store/ApiStore/types';
-import IUser from '@interfaces/user';
+import IUser from "@interfaces/user";
+import { ApiResponse } from "@shared/store/ApiStore/types";
 
 /** Интерфейс класса для работы с GitHub API
  * названия getSomeData и postSomeData
@@ -8,18 +8,6 @@ import IUser from '@interfaces/user';
  * Выберите любой запрос из публичного API GitHub.
  */
 
-// POST
-export type PostSomeDataResp = {
-  id: number;
-  name: string;
-};
-
-export type PostSomeDataPrams = {
-  org: string;
-  body: Body;
-};
-
-// GET
 export type GetUserDataResponse = {
   total_count: number;
   items: Array<IUser>;
@@ -28,11 +16,6 @@ export type GetUserDataResponse = {
 
 export interface IGitHubStore {
   getUserData(
-    organisation: string,
+    organisation: string
   ): Promise<ApiResponse<GetUserDataResponse, Error>>;
-
-  // Необязательный пункт, т.к. требует авторизации. Понадобится в будущем
-  postSomeData(
-    params: PostSomeDataPrams,
-  ): Promise<ApiResponse<PostSomeDataResp, Error>>;
 }

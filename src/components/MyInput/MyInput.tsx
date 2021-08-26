@@ -1,8 +1,11 @@
-import React, { InputHTMLAttributes } from 'react';
-import classes from './MyInput.module.scss';
+import React, { InputHTMLAttributes } from "react";
 
-const MyInput: React.FC<InputHTMLAttributes<HTMLInputElement>> = ({
-  ...props
-}: InputHTMLAttributes<HTMLInputElement>) => <input {...props} className={classes.MyInput}/>;
+import classes from "./MyInput.module.scss";
+
+export type MyInputProps = InputHTMLAttributes<HTMLInputElement>;
+
+const MyInput: React.FC<MyInputProps> = ({ ...props }: MyInputProps) => (
+  <input {...props} className={classes.MyInput} />
+);
 
 export default MyInput;

@@ -22,9 +22,12 @@
     "@types/react-dom": "^17.0.0",
     "eslint": "^7.17.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
+    "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.3.2",
     "sass": "^1.38.0",
     "typescript": "^4.1.2"
   },
@@ -33,7 +36,8 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "lint": "eslint src --fix"
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix"
   },
   "eslintConfig": {
     "extends": [

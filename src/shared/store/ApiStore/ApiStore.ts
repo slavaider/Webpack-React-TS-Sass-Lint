@@ -1,23 +1,22 @@
-import qs from 'qs';
-import {
-  ApiResponse, IApiStore, RequestParams, StatusHTTP,
-} from './types';
+import qs from "qs";
+
+import { ApiResponse, IApiStore, RequestParams, StatusHTTP } from "./types";
 
 export default class ApiStore implements IApiStore {
   readonly baseUrl: string;
 
-  constructor() {
-    this.baseUrl = 'https://api.github.com';
+  constructor(baseUrl: string) {
+    this.baseUrl = baseUrl;
   }
 
   async request<SuccessT, ErrorT = Error, ReqT = Record<string, unknown>>(
-    params: RequestParams<ReqT>,
+    params: RequestParams<ReqT>
   ): Promise<ApiResponse<SuccessT, ErrorT>> {
     try {
       const query = qs.stringify(params.data);
       const response = await fetch(
         `${this.baseUrl}/${params.endpoint}?${query}`,
-        params,
+        params
       );
       const data = await response.json();
 
