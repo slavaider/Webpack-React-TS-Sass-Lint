@@ -47,7 +47,13 @@ const RepoBranchesDrawer: React.FC<ReposProps> = ({
           <p key={branch.commit.sha}>
             {branch.protected && <span className="color-red">Protected</span>}
             &nbsp;
-            <a href={branch.commit.url}>{branch.name}</a>
+            <a
+              rel="noopener noreferrer"
+              target="_blank"
+              href={branch.commit.url}
+            >
+              {branch.name}
+            </a>
           </p>
         );
       })}
