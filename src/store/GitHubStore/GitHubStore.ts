@@ -1,21 +1,35 @@
 import ApiStore from "@shared/store/ApiStore";
 import { ApiResponse, HTTPMethod } from "@shared/store/ApiStore/types";
 
-import { GetUserDataResponse, IGitHubStore } from "./types";
+import {
+  GetBranchesResponse,
+  GetRepositoryDataResponse,
+  IGitHubStore,
+} from "./types";
 
 export default class GitHubStore implements IGitHubStore {
   private readonly api: ApiStore = new ApiStore("https://api.github.com");
 
-  // https://docs.github.com/en/rest/reference/search#search-users
-  getUserData(
-    userName: string
-  ): Promise<ApiResponse<GetUserDataResponse, Error>> {
+  getRepositoryData(
+    organisationName: string
+  ): Promise<ApiResponse<GetRepositoryDataResponse, Error>> {
     const options = {
       method: HTTPMethod.GET,
-      data: {
-        q: userName,
+      endpoint: `orgs/${organisationName}/repos`,
+      headers: {
+        Accept: "application/vnd.github.v3+json",
       },
-      endpoint: "search/users",
+    };
+    return this.api.request(options);
+  }
+
+  getRepositoryBranches(
+    owner: string,
+    repo: string
+  ): Promise<ApiResponse<GetBranchesResponse, Error>> {
+    const options = {
+      method: HTTPMethod.GET,
+      endpoint: `repos/${owner}/${repo}/branches`,
       headers: {
         Accept: "application/vnd.github.v3+json",
       },

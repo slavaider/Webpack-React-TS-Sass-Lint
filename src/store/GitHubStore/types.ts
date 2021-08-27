@@ -1,4 +1,5 @@
-import IUser from "@interfaces/user";
+import IBranch from "@interfaces/branch";
+import IRepository from "@interfaces/repository";
 import { ApiResponse } from "@shared/store/ApiStore/types";
 
 /** Интерфейс класса для работы с GitHub API
@@ -8,14 +9,21 @@ import { ApiResponse } from "@shared/store/ApiStore/types";
  * Выберите любой запрос из публичного API GitHub.
  */
 
-export type GetUserDataResponse = {
-  total_count: number;
-  items: Array<IUser>;
-  incomplete_results: boolean;
+export type GetRepositoryDataResponse = {
+  data: Array<IRepository>;
+};
+
+export type GetBranchesResponse = {
+  data: Array<IBranch>;
 };
 
 export interface IGitHubStore {
-  getUserData(
+  getRepositoryData(
     organisation: string
-  ): Promise<ApiResponse<GetUserDataResponse, Error>>;
+  ): Promise<ApiResponse<GetRepositoryDataResponse, Error>>;
+
+  getRepositoryBranches(
+    owner: string,
+    repo: string
+  ): Promise<ApiResponse<GetBranchesResponse, Error>>;
 }

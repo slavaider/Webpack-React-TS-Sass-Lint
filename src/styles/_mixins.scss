@@ -1,6 +1,6 @@
 @import '~include-media';
 
-@mixin square($value){
+@mixin square($value) {
   width: $value;
   height: $value;
 }

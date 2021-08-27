@@ -1,11 +1,18 @@
 import React from "react";
 
-import HomePage from "./pages/HomePage";
+import GithubContext from "@shared/contexts/GithubContext";
+import GithubStore from "@store/GitHubStore/GitHubStore";
 
-const App: React.FC = () => (
-  <>
-    <HomePage />
-  </>
-);
+import ReposSearchPage from "./pages/ReposSearchPage";
+
+const App: React.FC = () => {
+  const store = new GithubStore();
+
+  return (
+    <GithubContext.Provider value={{ store }}>
+      <ReposSearchPage />
+    </GithubContext.Provider>
+  );
+};
 
 export default App;

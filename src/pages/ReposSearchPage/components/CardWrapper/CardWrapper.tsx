@@ -1,20 +1,22 @@
 import React from "react";
 
-import IUser from "@interfaces/user";
+import IRepository from "@interfaces/repository";
 
 import Card from "../Card";
 import classes from "./CardWrapper.module.scss";
 
 export type CardWrapperProps = {
-  items: Array<IUser>;
+  items: Array<IRepository>;
+  onClick?: (item: IRepository) => void;
 };
 
 const CardWrapper: React.FC<CardWrapperProps> = ({
   items,
+  onClick,
 }: CardWrapperProps) => (
   <div className={classes.CardWrapper}>
     {items.map((item) => (
-      <Card item={item} key={item.id} />
+      <Card onClick={onClick} item={item} key={item.id} />
     ))}
   </div>
 );

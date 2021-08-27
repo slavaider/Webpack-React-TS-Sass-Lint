@@ -8,17 +8,12 @@
   font-size: $main-font-size;
   line-height: $main-line-height;
   border: 1px solid #D9D9D9;
+  cursor: pointer;
 
   .cardContent {
     display: flex;
     align-items: center;
     padding: $spacing-unit-3;
-
-    .cardImg {
-      @include square(80px);
-      display: block;
-      border-radius: 100%;
-    }
 
     .cardText {
       margin-left: $spacing-unit-3;
@@ -47,7 +42,8 @@
 
         .starImg {
           color: $color-yellow;
-          vertical-align: middle;
+          vertical-align: top;
+          margin-right: $spacing-unit-1;
         }
       }
     }
