@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { memo, useContext, useEffect, useState } from "react";
 
 import MyDrawer from "@components/MyDrawer";
 import IBranch from "@interfaces/branch";
@@ -61,4 +61,4 @@ const RepoBranchesDrawer: React.FC<ReposProps> = ({
   );
 };
 
-export default RepoBranchesDrawer;
+export default memo(RepoBranchesDrawer);

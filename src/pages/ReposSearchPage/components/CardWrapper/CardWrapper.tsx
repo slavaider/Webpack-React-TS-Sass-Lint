@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import IRepository from "@interfaces/repository";
 
@@ -21,4 +21,4 @@ const CardWrapper: React.FC<CardWrapperProps> = ({
   </div>
 );
 
-export default CardWrapper;
+export default memo(CardWrapper);

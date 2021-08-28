@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 import Avatar from "@components/Avatar";
 import StarIcon from "@components/StarIcon";
@@ -49,4 +49,4 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
   );
 };
 
-export default React.memo(Card);
+export default memo(Card);

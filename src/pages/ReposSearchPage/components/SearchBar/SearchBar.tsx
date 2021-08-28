@@ -1,4 +1,4 @@
-import React, { FormEvent } from "react";
+import React, { memo, FormEvent } from "react";
 
 import MyButton from "@components/MyButton";
 import MyInput from "@components/MyInput";
@@ -29,4 +29,4 @@ const SearchBar: React.FC<SearchBarProps> = ({
   );
 };
 
-export default React.memo(SearchBar);
+export default memo(SearchBar);
