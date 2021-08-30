@@ -8,6 +8,7 @@ type OwnerType = {
 export default interface IRepository {
   id: number;
   node_id: string;
+  updated_at: string;
   name: string;
   stargazers_count: number;
   owner: OwnerType;

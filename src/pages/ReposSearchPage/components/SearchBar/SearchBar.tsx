@@ -15,8 +15,8 @@ const SearchBar: React.FC<SearchBarProps> = ({
 }: SearchBarProps) => {
   const submitCompany = (event: FormEvent) => {
     event.preventDefault();
-    const data = (event.target as HTMLFormElement).search.value;
-    handleChanged(data);
+    const data = (event.target as HTMLFormElement).search.value as string;
+    handleChanged(data.trim().toLowerCase());
   };
 
   return (

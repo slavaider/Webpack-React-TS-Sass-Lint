@@ -3,6 +3,7 @@ import React, { memo } from "react";
 import Avatar from "@components/Avatar";
 import StarIcon from "@components/StarIcon";
 import IRepository from "@interfaces/repository";
+import dayjs from "dayjs";
 
 import classes from "./Card.module.scss";
 
@@ -25,6 +26,7 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
           width="80px"
           height="80px"
           src={item.owner.avatar_url}
+          letter={item.owner.avatar_url || item.name[0].toUpperCase()}
           className={classes.cardImg}
           alt="card-img"
         />
@@ -41,7 +43,8 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
           </a>
           <div className={classes.cardDate}>
             <StarIcon className={classes.starImg} />
-            {item.stargazers_count}
+            {item.stargazers_count}&nbsp;Updated&nbsp;
+            {dayjs(item.updated_at).format("DD MMMM")}
           </div>
         </div>
       </div>
