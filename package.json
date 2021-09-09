@@ -7,12 +7,14 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.16.13",
+    "dayjs": "^1.10.6",
     "include-media": "^1.4.10",
     "qs": "^6.7.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-infinite-scroll-component": "^6.1.0",
+    "react-router-dom": "^5.3.0",
     "react-scripts": "4.0.3",
-    "dayjs": "^1.10.6",
     "web-vitals": "^1.0.1"
   },
   "devDependencies": {
@@ -22,6 +24,7 @@
     "@types/qs": "^6.9.7",
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
+    "@types/react-router-dom": "^5.1.8",
     "eslint": "^7.17.0",
     "eslint-config-airbnb-typescript": "^12.3.1",
     "eslint-config-prettier": "^8.3.0",

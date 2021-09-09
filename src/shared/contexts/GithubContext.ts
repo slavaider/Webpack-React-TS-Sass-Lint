@@ -2,7 +2,7 @@ import React from "react";
 
 import GitHubStore from "@store/GitHubStore";
 
-type GithubContextType = {
+export type GithubContextType = {
   store: GitHubStore;
 };
 

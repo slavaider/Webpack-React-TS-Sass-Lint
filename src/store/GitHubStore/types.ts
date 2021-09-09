@@ -19,7 +19,8 @@ export type GetBranchesResponse = {
 
 export interface IGitHubStore {
   getRepositoryData(
-    organisation: string
+    organisation: string,
+    page: number
   ): Promise<ApiResponse<GetRepositoryDataResponse, Error>>;
 
   getRepositoryBranches(

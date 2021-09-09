@@ -8,6 +8,9 @@
       "@assets/*": [
         "src/assets/*"
       ],
+      "@config/*": [
+        "src/config/*"
+      ],
       "@shared/*": [
         "src/shared/*"
       ],

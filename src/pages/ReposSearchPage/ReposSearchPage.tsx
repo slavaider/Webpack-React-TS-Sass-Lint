@@ -1,72 +1,58 @@
-import React, { useCallback, useContext, useState } from "react";
+import React, { useCallback, useState } from "react";
 
 import Loader from "@components/Loader";
-import IRepository from "@interfaces/repository";
 import GithubContext from "@shared/contexts/GithubContext";
+import useReposContext from "@shared/hooks/useReposContext";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { useHistory } from "react-router-dom";
 
 import CardWrapper from "./components/CardWrapper";
-import RepoBranchesDrawer from "./components/RepoBranchesDrawer";
 import SearchBar from "./components/SearchBar/SearchBar";
 import classes from "./ReposSearchPage.module.scss";
 
 const ReposSearchPage: React.FC = () => {
-  const context = useContext(GithubContext);
-  const store = context?.store;
+  const { repositories, loadRepos } = useReposContext(GithubContext);
+  const history = useHistory();
 
   const [repoName, setRepoName] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false);
-  const [repositories, setRepositories] = useState<IRepository[]>([]);
-  const [visible, setVisible] = useState<boolean>(false);
-  const [selectedRepo, setSelectedRepo] = useState<IRepository | null>(null);
+  const [page, setPage] = useState<number>(1);
 
   const onChangeRepo = useCallback(
     async (rawData) => {
       const newData = rawData.trim();
-
+      await loadRepos(newData, page);
       setRepoName(newData);
-
-      if (newData) {
-        setLoading(true);
-
-        const response = await store?.getRepositoryData(newData);
-
-        if (response?.success && Array.isArray(response.data)) {
-          setRepositories(response.data);
-        } else {
-          setRepositories([]);
-        }
-
-        setLoading(false);
-      }
     },
     [repoName]
   );
 
   const onClickCard = useCallback(
     (repository) => {
-      setVisible(true);
-      setSelectedRepo(repository);
+      history.push(`/repos/${repository.owner.login}/${repository.name}`);
     },
     [repositories]
   );
 
-  const onCloseHandler = useCallback(() => {
-    setVisible(false);
-  }, [selectedRepo]);
+  const getData = async () => {
+    await loadRepos(repoName, page + 1);
+    setPage(page + 1);
+  };
 
   return (
     <div className={classes.HomePage}>
       <SearchBar handleChanged={onChangeRepo} />
-      {loading ? (
-        <Loader />
+      {repoName ? (
+        <InfiniteScroll
+          hasMore={true}
+          loader={<Loader />}
+          next={getData}
+          dataLength={repositories.length}
+        >
+          <CardWrapper onClick={onClickCard} items={repositories} />
+        </InfiniteScroll>
       ) : (
-        <CardWrapper onClick={onClickCard} items={repositories} />
+        ""
       )}
-      <RepoBranchesDrawer
-        visible={visible}
-        onClose={onCloseHandler}
-        selectedRepo={selectedRepo}
-      />
     </div>
   );
 };
