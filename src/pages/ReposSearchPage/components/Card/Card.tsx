@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 
 import Avatar from "@components/Avatar";
 import StarIcon from "@components/StarIcon";
@@ -13,11 +13,9 @@ export type CardProps = {
 };
 
 const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
-  function handleOnClick() {
-    if (onClick) {
-      onClick(item);
-    }
-  }
+  const handleOnClick = useCallback(() => {
+    onClick?.(item);
+  }, [item, onClick]);
 
   return (
     <div className={classes.Card} onClick={handleOnClick}>
@@ -26,7 +24,7 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
           width="80px"
           height="80px"
           src={item.owner.avatar_url}
-          letter={item.owner.avatar_url || item.name[0].toUpperCase()}
+          letter={item.name[0].toUpperCase()}
           className={classes.cardImg}
           alt="card-img"
         />

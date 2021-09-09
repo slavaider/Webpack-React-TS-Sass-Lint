@@ -20,19 +20,23 @@ const ReposSearchPage: React.FC = () => {
   const [selectedRepo, setSelectedRepo] = useState<IRepository | null>(null);
 
   const onChangeRepo = useCallback(
-    (newData) => {
+    async (rawData) => {
+      const newData = rawData.trim();
+
       setRepoName(newData);
 
       if (newData) {
         setLoading(true);
-        store?.getRepositoryData(newData).then((response) => {
-          if (response.success && Array.isArray(response.data)) {
-            setRepositories(response.data);
-          } else {
-            setRepositories([]);
-          }
-          setLoading(false);
-        });
+
+        const response = await store?.getRepositoryData(newData);
+
+        if (response?.success && Array.isArray(response.data)) {
+          setRepositories(response.data);
+        } else {
+          setRepositories([]);
+        }
+
+        setLoading(false);
       }
     },
     [repoName]

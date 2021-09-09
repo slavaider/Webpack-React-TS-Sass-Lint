@@ -8,23 +8,17 @@ export interface AvatarProps extends React.ImgHTMLAttributes<HTMLImageElement> {
 
 const Avatar: React.FC<AvatarProps> = ({ letter, ...props }: AvatarProps) => {
   return (
-    <>
-      {props.src ? (
-        <img
-          {...props}
-          src={props.src}
-          alt={props.alt}
-          className={classes.Avatar}
-        />
-      ) : (
-        <div
-          {...props}
-          className={classes.Alt}
-          style={{ width: props.width, height: props.height }}
-          data-letter={letter || ""}
-        />
-      )}
-    </>
+    <div
+      {...props}
+      className={classes.Avatar}
+      style={{
+        width: props.width,
+        height: props.height,
+        backgroundImage: props.src ? `url(${props.src})` : "",
+      }}
+    >
+      {!props.src ? letter : ""}
+    </div>
   );
 };
 

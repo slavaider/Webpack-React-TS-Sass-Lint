@@ -5,6 +5,8 @@ import IBranch from "@interfaces/branch";
 import IRepository from "@interfaces/repository";
 import GithubContext from "@shared/contexts/GithubContext";
 
+import Branch from "../Branch";
+
 export type ReposProps = {
   selectedRepo: IRepository | null;
   onClose: () => void;
@@ -42,21 +44,9 @@ const RepoBranchesDrawer: React.FC<ReposProps> = ({
       visible={visible}
       key={selectedRepo?.id}
     >
-      {branches.map((branch) => {
-        return (
-          <p key={branch.commit.sha}>
-            {branch.protected && <span className="color-red">Protected</span>}
-            &nbsp;
-            <a
-              rel="noopener noreferrer"
-              target="_blank"
-              href={branch.commit.url}
-            >
-              {branch.name}
-            </a>
-          </p>
-        );
-      })}
+      {branches.map((branch) => (
+        <Branch key={branch.commit.sha} branch={branch} />
+      ))}
     </MyDrawer>
   );
 };
