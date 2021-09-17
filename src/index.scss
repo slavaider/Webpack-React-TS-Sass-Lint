@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300ita‌​lic,400italic,500,500italic,700,700italic,900italic,900');
 @import "~antd/dist/antd.compact.min.css";
+@import 'src/styles/variables';
 
 body {
   margin: 0;
@@ -16,14 +17,14 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-  monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
 .color-white {
-  color: white;
+  color: $color-white;
 }
-.color-red{
-  color:red;
+
+.color-red {
+  color: $color-red;
 }
 

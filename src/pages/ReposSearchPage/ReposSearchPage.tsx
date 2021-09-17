@@ -4,8 +4,9 @@ import Loader from "@components/Loader";
 import GithubContext from "@shared/contexts/GithubContext";
 import useReposContext from "@shared/hooks/useReposContext";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { useHistory } from "react-router-dom";
+import { Route, useHistory } from "react-router-dom";
 
+import BranchesDrawerPage from "../BranchesDrawerPage/RepoBranchesDrawer";
 import CardWrapper from "./components/CardWrapper";
 import SearchBar from "./components/SearchBar/SearchBar";
 import classes from "./ReposSearchPage.module.scss";
@@ -41,6 +42,11 @@ const ReposSearchPage: React.FC = () => {
   return (
     <div className={classes.HomePage}>
       <SearchBar handleChanged={onChangeRepo} />
+      <Route
+        path={"/repos/:owner/:repo"}
+        exact={true}
+        component={BranchesDrawerPage}
+      />
       {repoName ? (
         <InfiniteScroll
           hasMore={true}

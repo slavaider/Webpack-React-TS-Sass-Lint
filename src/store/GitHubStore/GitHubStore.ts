@@ -1,3 +1,4 @@
+import endpoints from "@config/endpoints";
 import ApiStore from "@shared/store/ApiStore";
 import { ApiResponse, HTTPMethod } from "@shared/store/ApiStore/types";
 
@@ -20,7 +21,7 @@ export default class GitHubStore implements IGitHubStore {
         per_page: 12,
         page,
       },
-      endpoint: `orgs/${organisationName}/repos`,
+      endpoint: endpoints.repoData(organisationName),
       headers: {
         Accept: "application/vnd.github.v3+json",
       },
@@ -34,7 +35,7 @@ export default class GitHubStore implements IGitHubStore {
   ): Promise<ApiResponse<GetBranchesResponse, Error>> {
     const options = {
       method: HTTPMethod.GET,
-      endpoint: `repos/${owner}/${repo}/branches`,
+      endpoint: endpoints.repoBranches(owner, repo),
       headers: {
         Accept: "application/vnd.github.v3+json",
       },
