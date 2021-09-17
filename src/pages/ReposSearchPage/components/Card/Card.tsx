@@ -2,14 +2,14 @@ import React, { memo, useCallback } from "react";
 
 import Avatar from "@components/Avatar";
 import StarIcon from "@components/StarIcon";
-import IRepository from "@interfaces/repository";
+import { GithubRepoItemModel } from "@store/models/github";
 import dayjs from "dayjs";
 
 import classes from "./Card.module.scss";
 
 export type CardProps = {
-  item: IRepository;
-  onClick?: (item: IRepository) => void;
+  item: GithubRepoItemModel;
+  onClick?: (item: GithubRepoItemModel) => void;
 };
 
 const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
@@ -23,7 +23,7 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
         <Avatar
           width="80px"
           height="80px"
-          src={item.owner.avatar_url}
+          src={item.owner.avatarUrl}
           letter={item.name[0].toUpperCase()}
           className={classes.cardImg}
           alt="card-img"
@@ -32,7 +32,7 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
           <div className={classes.cardHeader}>{item.name}</div>
           <a
             className={classes.cardSubHeader}
-            href={item.html_url}
+            href={item.htmlUrl}
             target="_blank"
             onClick={(event) => event.stopPropagation()}
             rel="noopener noreferrer"
@@ -41,8 +41,8 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
           </a>
           <div className={classes.cardDate}>
             <StarIcon className={classes.starImg} />
-            {item.stargazers_count}&nbsp;Updated&nbsp;
-            {dayjs(item.updated_at).format("DD MMMM")}
+            {item.stargazersCount}&nbsp;Updated&nbsp;
+            {dayjs(item.updatedAt).format("DD MMMM")}
           </div>
         </div>
       </div>

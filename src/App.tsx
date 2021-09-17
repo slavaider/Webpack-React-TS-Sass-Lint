@@ -1,26 +1,45 @@
 import React from "react";
 
 import GithubContext from "@shared/contexts/GithubContext";
-import GithubStore from "@store/GitHubStore/GitHubStore";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import useLocalStore from "@shared/hooks/useLocalStore";
+import RepoBranchesStore from "@store/RepoBranchesStore";
+import ReposListStore from "@store/ReposListStore";
+import useQueryStoreInit from "@store/RootStore/hooks/useQueryStoreInit";
+import Meta from "@utils/meta";
+import { observer } from "mobx-react-lite";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import routes from "./routes";
 
 const App: React.FC = () => {
-  const store = new GithubStore();
+  useQueryStoreInit();
 
+  const repoList = useLocalStore(() => new ReposListStore());
+  const repoBranches = useLocalStore(() => new RepoBranchesStore());
+
+  if (repoList.meta === Meta.error) {
+    return <h1>Ошибка в списке репозиториях</h1>;
+  }
+
+  if (repoBranches.meta === Meta.error) {
+    return <h1>Ошибка в списке веток</h1>;
+  }
+  // can't use because of infinite scroll
+  /*
+      if (repoList.meta === Meta.loading || repoBranches.meta === Meta.loading) {
+        return <Loader />;
+      }
+  */
   return (
-    <GithubContext.Provider value={{ store }}>
-      <BrowserRouter>
-        <Switch>
-          {routes.map((route) => (
-            <Route key={route.path} {...route} />
-          ))}
-          <Redirect from="*" to="/repos" />
-        </Switch>
-      </BrowserRouter>
+    <GithubContext.Provider value={{ repoList, repoBranches }}>
+      <Switch>
+        {routes.map((route) => (
+          <Route key={route.path} {...route} />
+        ))}
+        <Redirect from="*" to="/repos" />
+      </Switch>
     </GithubContext.Provider>
   );
 };
 
-export default App;
+export default observer(App);

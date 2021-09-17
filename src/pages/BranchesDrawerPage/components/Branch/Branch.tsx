@@ -1,9 +1,9 @@
 import React, { memo } from "react";
 
-import IBranch from "@interfaces/branch";
+import { GithubBranchModel } from "@store/models/github";
 
 export type BranchProps = {
-  branch: IBranch;
+  branch: GithubBranchModel;
 };
 
 const Branch: React.FC<BranchProps> = ({ branch }: BranchProps) => {

@@ -11,14 +11,14 @@
       "@config/*": [
         "src/config/*"
       ],
+      "@utils/*": [
+        "src/utils/*"
+      ],
       "@shared/*": [
         "src/shared/*"
       ],
       "@store/*": [
         "src/store/*"
-      ],
-      "@interfaces/*": [
-        "src/interfaces/*"
       ]
     }
   }

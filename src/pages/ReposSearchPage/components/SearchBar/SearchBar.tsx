@@ -1,4 +1,4 @@
-import React, { memo, FormEvent } from "react";
+import React, { FormEvent, memo } from "react";
 
 import MyButton from "@components/MyButton";
 import MyInput from "@components/MyInput";
@@ -7,7 +7,7 @@ import SearchIcon from "@components/SearchIcon";
 import classes from "./SearchBar.module.scss";
 
 export type SearchBarProps = {
-  handleChanged: (nextValue: string) => void;
+  handleChanged: ((nextValue: string) => Promise<void>) | undefined;
 };
 
 const SearchBar: React.FC<SearchBarProps> = ({
@@ -16,7 +16,7 @@ const SearchBar: React.FC<SearchBarProps> = ({
   const submitCompany = (event: FormEvent) => {
     event.preventDefault();
     const data = (event.target as HTMLFormElement).search.value as string;
-    handleChanged(data.trim().toLowerCase());
+    handleChanged?.(data.trim().toLowerCase());
   };
 
   return (

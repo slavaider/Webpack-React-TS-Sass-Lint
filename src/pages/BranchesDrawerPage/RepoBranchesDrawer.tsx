@@ -1,32 +1,27 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
 import MyDrawer from "@components/MyDrawer";
 import GithubContext from "@shared/contexts/GithubContext";
-import useReposContext from "@shared/hooks/useReposContext";
+import useRepoBranchesContext from "@shared/hooks/useRepoBranchesContext";
+import { observer } from "mobx-react-lite";
 import { useHistory, useParams } from "react-router-dom";
 
-import Branch from "../ReposSearchPage/components/Branch";
+import Branch from "./components/Branch";
 
 const BranchesDrawerPage: React.FC = () => {
   const history = useHistory();
   const { owner, repo } = useParams<{ owner: string; repo: string }>();
   const [visible, setVisible] = useState<boolean>(true);
 
-  const { branches, loadBranches } = useReposContext(GithubContext);
+  const store = useRepoBranchesContext(GithubContext);
 
   const onClose = () => {
     setVisible(false);
     history.goBack();
   };
 
-  const fetchMyAPI = useCallback(async () => {
-    if (owner && repo) {
-      await loadBranches(owner, repo);
-    }
-  }, [owner, repo]);
-
   useEffect(() => {
-    fetchMyAPI();
+    store?.getRepositoryBranches(owner, repo);
   }, [owner, repo]);
 
   return (
@@ -37,11 +32,11 @@ const BranchesDrawerPage: React.FC = () => {
       onClose={onClose}
       visible={visible}
     >
-      {branches.map((branch) => (
+      {store?.branches?.map((branch) => (
         <Branch key={branch.commit.sha} branch={branch} />
       ))}
     </MyDrawer>
   );
 };
 
-export default memo(BranchesDrawerPage);
+export default memo(observer(BranchesDrawerPage));
