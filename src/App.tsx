@@ -1,26 +1,26 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
 
-function App() {
+import GithubContext from "@shared/contexts/GithubContext";
+import GithubStore from "@store/GitHubStore/GitHubStore";
+import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+
+import routes from "./routes";
+
+const App: React.FC = () => {
+  const store = new GithubStore();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <GithubContext.Provider value={{ store }}>
+      <BrowserRouter>
+        <Switch>
+          {routes.map((route) => (
+            <Route key={route.path} {...route} />
+          ))}
+          <Redirect from="*" to="/repos" />
+        </Switch>
+      </BrowserRouter>
+    </GithubContext.Provider>
   );
-}
+};
 
 export default App;

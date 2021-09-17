@@ -1,0 +1,13 @@
+@import 'src/styles/mixins';
+@import 'src/styles/variables';
+
+.CardWrapper {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(auto, 371px));
+  gap: 30px;
+  padding: $spacing-unit-5;
+
+  @include media("<=tablet") {
+    grid-template-columns: repeat(1, minmax(auto, 371px));
+  }
+}

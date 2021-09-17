@@ -1,0 +1,13 @@
+@import 'src/styles/mixins';
+@import 'src/styles/variables';
+
+.SearchBar {
+  display: flex;
+  flex-wrap: nowrap;
+  padding: 0 $spacing-unit-5;
+  width: 371px;
+
+  @include media("<=phone") {
+    width: auto;
+  }
+}

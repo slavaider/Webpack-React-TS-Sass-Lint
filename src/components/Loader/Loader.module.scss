@@ -1,0 +1,41 @@
+@import 'src/styles/variables';
+@import 'src/styles/mixins';
+
+.Loader {
+  margin: 0 auto;
+  @include square(80px);
+
+  .Point {
+    box-sizing: border-box;
+    position: absolute;
+    @include square(64px);
+    margin: $spacing-unit-2;
+    border: 8px solid lightblue;
+    border-color: lightblue transparent transparent transparent;
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+
+    &.Point1 {
+      animation-delay: -0.45s;
+    }
+
+    &.Point2 {
+      animation-delay: -0.3s;
+    }
+
+    &.Point3{
+      animation-delay: -0.15s;
+    }
+
+  }
+
+  @keyframes lds-ring {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+}
+

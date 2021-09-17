@@ -1,0 +1,8 @@
+@import 'src/styles/variables';
+
+.HomePage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: $spacing-unit-5;
+}
