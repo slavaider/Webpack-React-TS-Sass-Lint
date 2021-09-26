@@ -52,14 +52,14 @@ if (!isDev) {
 
 module.exports = {
   output: {
-    path: path.resolve(__dirname, "dist"),
+    path: path.resolve(__dirname, "build"),
     filename: "[name].[contenthash].js",
     publicPath: "",
   },
   mode: isDev ? "development" : "production",
   devtool: isDev ? "inline-source-map" : false,
   devServer: {
-    contentBase: path.join(__dirname, "dist"),
+    contentBase: path.join(__dirname, "build"),
     historyApiFallback: true,
     port: 4000,
     open: true,
@@ -126,7 +126,7 @@ module.exports = {
       patterns: [
         {
           from: path.resolve(__dirname, "src/assets"),
-          to: path.resolve(__dirname, "dist/assets"),
+          to: path.resolve(__dirname, "build/assets"),
         },
       ],
     }),
