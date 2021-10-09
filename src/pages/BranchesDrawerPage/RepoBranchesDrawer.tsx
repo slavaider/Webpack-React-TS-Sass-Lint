@@ -1,8 +1,9 @@
-import React, { memo, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import MyDrawer from "@components/MyDrawer";
-import GithubContext from "@shared/contexts/GithubContext";
-import useRepoBranchesContext from "@shared/hooks/useRepoBranchesContext";
+import useLocalStore from "@shared/hooks/useLocalStore";
+import RepoBranchesStore from "@store/RepoBranchesStore";
+import Meta from "@utils/meta";
 import { observer } from "mobx-react-lite";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -13,15 +14,15 @@ const BranchesDrawerPage: React.FC = () => {
   const { owner, repo } = useParams<{ owner: string; repo: string }>();
   const [visible, setVisible] = useState<boolean>(true);
 
-  const store = useRepoBranchesContext(GithubContext);
+  const repoBranches = useLocalStore(() => new RepoBranchesStore());
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setVisible(false);
     history.goBack();
-  };
+  }, []);
 
   useEffect(() => {
-    store?.getRepositoryBranches(owner, repo);
+    repoBranches?.getRepositoryBranches(owner, repo);
   }, [owner, repo]);
 
   return (
@@ -32,11 +33,14 @@ const BranchesDrawerPage: React.FC = () => {
       onClose={onClose}
       visible={visible}
     >
-      {store?.branches?.map((branch) => (
+      {repoBranches?.branches?.map((branch) => (
         <Branch key={branch.commit.sha} branch={branch} />
       ))}
+      {repoBranches.meta === Meta.error && (
+        <h1 className="error">Ошибка в списке веток</h1>
+      )}
     </MyDrawer>
   );
 };
 
-export default memo(observer(BranchesDrawerPage));
+export default observer(BranchesDrawerPage);

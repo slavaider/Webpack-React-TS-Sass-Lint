@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import GithubContext from "@shared/contexts/GithubContext";
 import useLocalStore from "@shared/hooks/useLocalStore";
-import RepoBranchesStore from "@store/RepoBranchesStore";
 import ReposListStore from "@store/ReposListStore";
 import useQueryStoreInit from "@store/RootStore/hooks/useQueryStoreInit";
 import Meta from "@utils/meta";
 import { observer } from "mobx-react-lite";
-import { Redirect, Route, Switch } from "react-router-dom";
+import { Redirect, Route, Switch, withRouter } from "react-router-dom";
 
 import routes from "./routes";
 
@@ -15,31 +14,22 @@ const App: React.FC = () => {
   useQueryStoreInit();
 
   const repoList = useLocalStore(() => new ReposListStore());
-  const repoBranches = useLocalStore(() => new RepoBranchesStore());
 
-  if (repoList.meta === Meta.error) {
-    return <h1>Ошибка в списке репозиториях</h1>;
-  }
+  const value = useMemo(() => {
+    return { repoList };
+  }, []);
 
-  if (repoBranches.meta === Meta.error) {
-    return <h1>Ошибка в списке веток</h1>;
-  }
-  // can't use because of infinite scroll
-  /*
-      if (repoList.meta === Meta.loading || repoBranches.meta === Meta.loading) {
-        return <Loader />;
-      }
-  */
   return (
-    <GithubContext.Provider value={{ repoList, repoBranches }}>
+    <GithubContext.Provider value={value}>
       <Switch>
-        {routes.map((route) => (
-          <Route key={route.path} {...route} />
-        ))}
+        <Route {...routes.homepage} />;
         <Redirect from="*" to="/repos" />
       </Switch>
+      {repoList.meta === Meta.error && (
+        <h1 className="error">Ошибка в списке репозиториев</h1>
+      )}
     </GithubContext.Provider>
   );
 };
 
-export default observer(App);
+export default withRouter(observer(App));

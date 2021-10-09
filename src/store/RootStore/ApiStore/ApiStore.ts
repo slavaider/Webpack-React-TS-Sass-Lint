@@ -14,7 +14,7 @@ export default class ApiStore implements IApiStore {
   ): Promise<ApiResponse<SuccessT, ErrorT>> {
     const query = params.data ? `?${qs.stringify(params.data)}` : "";
     const response = await fetch(
-      `${this.baseUrl}/${params.endpoint}${query}`,
+      `${this.baseUrl}${params.endpoint}${query}`,
       params
     );
 

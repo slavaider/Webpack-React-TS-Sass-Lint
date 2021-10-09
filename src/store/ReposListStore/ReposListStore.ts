@@ -35,6 +35,8 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
 
   public page = 1;
 
+  public pageLimit = 12;
+
   public repoName = "";
 
   constructor() {
@@ -89,7 +91,7 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
     const options = {
       method: HTTPMethod.GET,
       data: {
-        per_page: 12,
+        per_page: this.pageLimit,
         page,
       },
       endpoint: endpoints.repoData(organisationName),
