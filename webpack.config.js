@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
 const isDevelopment = process.env.NODE_ENV !== "production";
 
@@ -18,10 +19,13 @@ function getPaths() {
     compilerOptions: { paths },
   } = base;
   const resolvePath = (pathName) => path.resolve(__dirname, pathName);
-  return Object.keys(paths).reduce((result, key) => {
-    result[parseString(key)] = resolvePath(parseString(paths[key][0]));
-    return result;
-  }, {});
+  return Object.keys(paths).reduce(
+    (result, key) => ({
+      ...result,
+      [parseString(key)]: resolvePath(parseString(paths[key][0])),
+    }),
+    {}
+  );
 }
 
 const getSettingsForStyles = (isModule = false) => {
@@ -52,6 +56,7 @@ const getSettingsForStyles = (isModule = false) => {
 };
 
 module.exports = {
+  context: __dirname,
   output: {
     path: path.resolve(__dirname, "build"),
     filename: "[name].[contenthash].js",
@@ -88,7 +93,12 @@ module.exports = {
       },
       {
         test: /\.(png|jpe?g|gif|svg)$/,
-        type: "asset/resource",
+        type: "asset",
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024,
+          },
+        },
       },
       {
         test: /\.(woff(2)?|eot|ttf|otf)$/i,
@@ -109,6 +119,7 @@ module.exports = {
       extensions: ["js", "jsx", "ts", "tsx"],
     }),
     new CleanWebpackPlugin(),
+    new ForkTsCheckerWebpackPlugin(),
     isDevelopment && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),
 };

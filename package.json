@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "SET NODE_ENV=development&& webpack serve --mode=development",
-    "build": "SET NODE_ENV=production&& webpack --mode=production",
+    "start": "webpack serve --env=development",
+    "build": "webpack --env=production",
     "test": "craco test",
     "eject": "craco eject",
     "lint": "eslint src",
@@ -61,6 +61,7 @@
     "eslint-plugin-react-hooks": "^4.2.0",
     "eslint-webpack-plugin": "^2.4.1",
     "file-loader": "^6.2.0",
+    "fork-ts-checker-webpack-plugin": "^6.3.4",
     "html-webpack-plugin": "^4.5.1",
     "identity-obj-proxy": "^3.0.0",
     "image-webpack-loader": "^7.0.1",
