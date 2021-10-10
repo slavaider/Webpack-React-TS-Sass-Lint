@@ -1,7 +1,7 @@
 module.exports = (api) => {
-  api.cache.using(() => process.env.NODE_ENV);
+  api.cache.using(() => process.env.npm_lifecycle_event);
 
-  const isDevelopment = process.env.NODE_ENV !== "production";
+  const isDevelopment = process.env.npm_lifecycle_event === "start";
 
   return {
     presets: [

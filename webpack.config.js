@@ -5,7 +5,9 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
 
-const isDevelopment = process.env.NODE_ENV !== "production";
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
+const isDevelopment = process.env.npm_lifecycle_event === "start";
 
 const base = require("./tsconfig.paths.json");
 
@@ -30,7 +32,14 @@ function getPaths() {
 
 const getSettingsForStyles = (isModule = false) => {
   return [
-    { loader: "style-loader" },
+    isDevelopment
+      ? { loader: "style-loader" }
+      : {
+          loader: MiniCssExtractPlugin.loader,
+          options: {
+            publicPath: "../",
+          },
+        },
     !isModule
       ? "css-loader"
       : {
@@ -71,7 +80,7 @@ module.exports = {
     hot: true,
     inline: true,
   },
-  target: isDevelopment ? "web" : "browserList",
+  target: isDevelopment ? "web" : "browserslist",
   entry: path.resolve(__dirname, "src", "index.tsx"),
   module: {
     rules: [
@@ -120,6 +129,10 @@ module.exports = {
     }),
     new CleanWebpackPlugin(),
     new ForkTsCheckerWebpackPlugin(),
+    !isDevelopment &&
+      new MiniCssExtractPlugin({
+        filename: "css/bundle.css",
+      }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
   ].filter(Boolean),
 };
