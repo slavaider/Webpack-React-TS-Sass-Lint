@@ -20,7 +20,6 @@ ReactDOM.render(
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 if (module.hot) {
-  console.log("hot");
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   module.hot.accept();
