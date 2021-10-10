@@ -1,12 +1,10 @@
 const path = require("path");
-const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const CopyWebpackPlugin = require("copy-webpack-plugin");
-const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
-const isDev = process.env.npm_lifecycle_event === "start";
+const isDevelopment = process.env.NODE_ENV !== "production";
 
 const base = require("./tsconfig.paths.json");
 
@@ -26,29 +24,32 @@ function getPaths() {
   }, {});
 }
 
-const stylesConfig = [
-  {
-    loader: MiniCssExtractPlugin.loader,
-    options: {
-      publicPath: "../",
+const getSettingsForStyles = (isModule = false) => {
+  return [
+    { loader: "style-loader" },
+    !isModule
+      ? "css-loader"
+      : {
+          loader: "css-loader",
+          options: {
+            modules: {
+              localIdentName: isDevelopment
+                ? "[path][name]__[local]"
+                : "[hash:base64]",
+            },
+          },
+        },
+    {
+      loader: "sass-loader",
+      options: {
+        sourceMap: true,
+      },
     },
-  },
-  {
-    loader: "css-loader",
-  },
-  {
-    loader: "sass-loader",
-    options: {
-      sourceMap: true,
+    !isDevelopment && {
+      loader: "postcss-loader",
     },
-  },
-];
-
-if (!isDev) {
-  stylesConfig.push({
-    loader: "postcss-loader",
-  });
-}
+  ].filter(Boolean);
+};
 
 module.exports = {
   output: {
@@ -56,16 +57,17 @@ module.exports = {
     filename: "[name].[contenthash].js",
     publicPath: "",
   },
-  mode: isDev ? "development" : "production",
-  devtool: isDev ? "inline-source-map" : false,
+  mode: isDevelopment ? "development" : "production",
+  devtool: isDevelopment ? "inline-source-map" : "hidden-source-map",
   devServer: {
-    contentBase: path.join(__dirname, "build"),
     historyApiFallback: true,
-    port: 4000,
+    port: process.env.PORT || 4000,
     open: true,
     hot: true,
+    inline: true,
   },
-  entry: "./src/index.tsx",
+  target: isDevelopment ? "web" : "browserList",
+  entry: path.resolve(__dirname, "src", "index.tsx"),
   module: {
     rules: [
       {
@@ -73,31 +75,20 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
-          options: {
-            presets: [
-              "@babel/preset-env",
-              "@babel/preset-react",
-              "@babel/preset-typescript",
-            ],
-          },
         },
       },
       {
-        test: /\.(sa|sc|c)ss$/,
-        use: stylesConfig,
+        test: /\.module.(sa|sc|c)ss$/,
+        use: getSettingsForStyles(true),
       },
-
+      {
+        test: /\.(sa|sc|c)ss$/,
+        exclude: /\.module.(sa|sc|c)ss$/,
+        use: getSettingsForStyles(),
+      },
       {
         test: /\.(png|jpe?g|gif|svg)$/,
-        use: [
-          {
-            loader: "file-loader",
-            options: {
-              outputPath: "./assets/img",
-              name: "[name].[ext]",
-            },
-          },
-        ],
+        type: "asset/resource",
       },
       {
         test: /\.(woff(2)?|eot|ttf|otf)$/i,
@@ -110,25 +101,14 @@ module.exports = {
     alias: getPaths(),
   },
   plugins: [
-    new MiniCssExtractPlugin({
-      filename: "css/bundle.css",
-    }),
     new HtmlWebpackPlugin({
       template: "./public/index.html",
       favicon: "./public/favicon.ico",
     }),
-    new webpack.HotModuleReplacementPlugin(),
     new ESLintPlugin({
       extensions: ["js", "jsx", "ts", "tsx"],
     }),
     new CleanWebpackPlugin(),
-    new CopyWebpackPlugin({
-      patterns: [
-        {
-          from: path.resolve(__dirname, "src/assets"),
-          to: path.resolve(__dirname, "build/assets"),
-        },
-      ],
-    }),
-  ],
+    isDevelopment && new ReactRefreshWebpackPlugin(),
+  ].filter(Boolean),
 };

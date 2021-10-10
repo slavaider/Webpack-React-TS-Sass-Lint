@@ -1,8 +1,9 @@
-import React, { FormEvent, memo, useCallback } from "react";
+import React, { FormEvent, memo, useCallback, useEffect } from "react";
 
 import MyButton from "@components/MyButton";
 import MyInput from "@components/MyInput";
 import SearchIcon from "@components/SearchIcon";
+import { useHistory } from "react-router-dom";
 
 import classes from "./SearchBar.module.scss";
 
@@ -13,10 +14,22 @@ export type SearchBarProps = {
 const SearchBar: React.FC<SearchBarProps> = ({
   handleChanged,
 }: SearchBarProps) => {
+  const organisation = new URLSearchParams(useHistory().location.search).get(
+    "search"
+  );
+
   const submitCompany = useCallback((event: FormEvent) => {
     event.preventDefault();
     const data = (event.target as HTMLFormElement).search.value as string;
     handleChanged?.(data.trim().toLowerCase());
+  }, []);
+
+  useEffect(() => {
+    if (organisation) {
+      handleChanged?.(organisation);
+    } else {
+      handleChanged?.("ktsstudio");
+    }
   }, []);
 
   return (

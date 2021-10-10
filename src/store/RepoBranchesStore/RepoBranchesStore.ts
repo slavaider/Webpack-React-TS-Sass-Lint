@@ -73,6 +73,7 @@ export default class RepoBranchesStore implements IGitHubStore, ILocalStore {
           const list: GithubBranchModel[] = response.data.map(
             normalizeGithubBranch
           );
+
           this._branches = normalizeCollection(list, (item) => item.name);
 
           return;

@@ -39,6 +39,7 @@ const Card: React.FC<CardProps> = ({ item, onClick }: CardProps) => {
           >
             Repository
           </a>
+
           <div className={classes.cardDate}>
             <StarIcon className={classes.starImg} />
             {item.stargazersCount}&nbsp;Updated&nbsp;

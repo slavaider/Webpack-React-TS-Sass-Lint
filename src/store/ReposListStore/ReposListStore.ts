@@ -68,7 +68,9 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
 
     this._repos = getInitialCollectionModel();
     this.page = 1;
+
     await this.getRepositoryData(newData, this.page);
+
     runInAction(() => {
       this.repoName = newData;
       RootStore.query.setParam("search", newData);
@@ -107,9 +109,15 @@ export default class ReposListStore implements IGitHubStore, ILocalStore {
           this._meta = Meta.success;
 
           const list: GithubRepoItemModel[] = [...this.repos];
+
+          if (response.data.length === 0) {
+            this._meta = Meta.empty;
+          }
+
           response.data.forEach((element) => {
             list.push(normalizeGithubRepoItem(element));
           });
+
           this._repos = normalizeCollection(list, (item) => item.id);
 
           return;

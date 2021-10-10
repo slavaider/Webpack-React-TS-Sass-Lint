@@ -37,7 +37,7 @@ const BranchesDrawerPage: React.FC = () => {
         <Branch key={branch.commit.sha} branch={branch} />
       ))}
       {repoBranches.meta === Meta.error && (
-        <h1 className="error">Ошибка в списке веток</h1>
+        <h3 className="error">Веток не найдено</h3>
       )}
     </MyDrawer>
   );
