@@ -28,3 +28,12 @@ code {
   color: $color-red;
 }
 
+.error{
+  margin: $spacing-unit-2;
+  padding: $spacing-unit-2;
+  color:$color-white;
+  text-align: center;
+  border-radius: 10px;
+  background-color:$color-red ;
+}
+

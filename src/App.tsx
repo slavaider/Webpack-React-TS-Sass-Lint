@@ -1,24 +1,28 @@
-import React from "react";
+import React, { useMemo } from "react";
 
 import GithubContext from "@shared/contexts/GithubContext";
-import GithubStore from "@store/GitHubStore/GitHubStore";
-import { BrowserRouter, Route, Switch, Redirect } from "react-router-dom";
+import useLocalStore from "@shared/hooks/useLocalStore";
+import ReposListStore from "@store/ReposListStore";
+import useQueryStoreInit from "@store/RootStore/hooks/useQueryStoreInit";
+import { Redirect, Route, Switch } from "react-router-dom";
 
 import routes from "./routes";
 
 const App: React.FC = () => {
-  const store = new GithubStore();
+  useQueryStoreInit();
+
+  const repoList = useLocalStore(() => new ReposListStore());
+
+  const value = useMemo(() => {
+    return { repoList };
+  }, []);
 
   return (
-    <GithubContext.Provider value={{ store }}>
-      <BrowserRouter>
-        <Switch>
-          {routes.map((route) => (
-            <Route key={route.path} {...route} />
-          ))}
-          <Redirect from="*" to="/repos" />
-        </Switch>
-      </BrowserRouter>
+    <GithubContext.Provider value={value}>
+      <Switch>
+        <Route {...routes.homepage} />;
+        <Redirect from="*" to="/repos" />
+      </Switch>
     </GithubContext.Provider>
   );
 };

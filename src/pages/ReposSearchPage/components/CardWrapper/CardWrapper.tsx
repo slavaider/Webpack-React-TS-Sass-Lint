@@ -1,22 +1,27 @@
 import React, { memo } from "react";
 
-import IRepository from "@interfaces/repository";
+import endponts from "@config/endpoints";
+import { GithubRepoItemModel } from "@store/models/github";
+import { Link } from "react-router-dom";
 
 import Card from "../Card";
 import classes from "./CardWrapper.module.scss";
 
 export type CardWrapperProps = {
-  items: Array<IRepository>;
-  onClick?: (item: IRepository) => void;
+  items?: GithubRepoItemModel[];
 };
 
 const CardWrapper: React.FC<CardWrapperProps> = ({
-  items,
-  onClick,
+  items = [],
 }: CardWrapperProps) => (
   <div className={classes.CardWrapper}>
-    {items.map((item) => (
-      <Card onClick={onClick} item={item} key={item.id} />
+    {items?.map((item) => (
+      <Link
+        key={item.id}
+        to={endponts.repoBranches(item.owner.login, item.name)}
+      >
+        <Card item={item} />
+      </Link>
     ))}
   </div>
 );

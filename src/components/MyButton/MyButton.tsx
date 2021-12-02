@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes, PropsWithChildren } from "react";
 
 import classes from "./MyButton.module.scss";
 

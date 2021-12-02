@@ -1,20 +1,27 @@
 import { ComponentType, ReactNode } from "react";
 
+import BranchesDrawerPage from "./pages/BranchesDrawerPage";
 import ReposSearchPage from "./pages/ReposSearchPage";
 
 export type Route = {
-  path: string;
-  exact: boolean;
-  component: ComponentType<ReactNode>;
+  [key: string]: {
+    path: string;
+    exact: boolean;
+    component: ComponentType<ReactNode>;
+  };
 };
-// Что значит оставить пути, но убрать компоненты
-// Как тогда прописывать их, если всё итерируется по циклу?
-const routes: Route[] = [
-  {
+
+const routes: Route = {
+  homepage: {
     path: "/repos",
     exact: false,
     component: ReposSearchPage,
   },
-];
+  branches: {
+    path: "/repos/:owner/:repo/branches",
+    exact: true,
+    component: BranchesDrawerPage,
+  },
+};
 
 export default routes;

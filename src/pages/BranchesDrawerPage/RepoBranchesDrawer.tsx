@@ -1,32 +1,28 @@
-import React, { memo, useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import MyDrawer from "@components/MyDrawer";
-import GithubContext from "@shared/contexts/GithubContext";
-import useReposContext from "@shared/hooks/useReposContext";
+import useLocalStore from "@shared/hooks/useLocalStore";
+import RepoBranchesStore from "@store/RepoBranchesStore";
+import Meta from "@utils/meta";
+import { observer } from "mobx-react-lite";
 import { useHistory, useParams } from "react-router-dom";
 
-import Branch from "../ReposSearchPage/components/Branch";
+import Branch from "./components/Branch";
 
 const BranchesDrawerPage: React.FC = () => {
   const history = useHistory();
   const { owner, repo } = useParams<{ owner: string; repo: string }>();
   const [visible, setVisible] = useState<boolean>(true);
 
-  const { branches, loadBranches } = useReposContext(GithubContext);
+  const repoBranches = useLocalStore(() => new RepoBranchesStore());
 
-  const onClose = () => {
+  const onClose = useCallback(() => {
     setVisible(false);
     history.goBack();
-  };
-
-  const fetchMyAPI = useCallback(async () => {
-    if (owner && repo) {
-      await loadBranches(owner, repo);
-    }
-  }, [owner, repo]);
+  }, []);
 
   useEffect(() => {
-    fetchMyAPI();
+    repoBranches?.getRepositoryBranches(owner, repo);
   }, [owner, repo]);
 
   return (
@@ -37,11 +33,14 @@ const BranchesDrawerPage: React.FC = () => {
       onClose={onClose}
       visible={visible}
     >
-      {branches.map((branch) => (
+      {repoBranches?.branches?.map((branch) => (
         <Branch key={branch.commit.sha} branch={branch} />
       ))}
+      {repoBranches.meta === Meta.error && (
+        <h3 className="error">Веток не найдено</h3>
+      )}
     </MyDrawer>
   );
 };
 
-export default memo(BranchesDrawerPage);
+export default observer(BranchesDrawerPage);

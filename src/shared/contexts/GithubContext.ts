@@ -1,9 +1,9 @@
 import React from "react";
 
-import GitHubStore from "@store/GitHubStore";
+import ReposListStore from "@store/ReposListStore";
 
 export type GithubContextType = {
-  store: GitHubStore;
+  repoList: ReposListStore;
 };
 
 const GithubContext = React.createContext<GithubContextType | null>(null);
